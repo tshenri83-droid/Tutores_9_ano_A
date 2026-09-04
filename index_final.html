@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tutores_9_ano_A</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef2ff,#f8fafc,#e0f2fe);color:#172033;min-height:100vh}
+header{padding:45px 20px;text-align:center;color:white;background:linear-gradient(135deg,#312e81,#4f46e5,#2563eb)}
+header h1{font-size:clamp(2.2rem,7vw,4rem);margin-bottom:10px}
+header p{opacity:.9}
+main{max-width:1050px;margin:auto;padding:30px 18px 60px}
+.topbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.topbar button{width:auto;padding:12px 18px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+button{border:0;width:100%;padding:22px;border-radius:20px;background:white;box-shadow:0 10px 25px #00000012;text-align:left;cursor:pointer;transition:.25s}
+button:hover{transform:translateY(-3px);box-shadow:0 16px 30px #0000001c}
+.icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:22px;margin-bottom:13px}
+button h3{font-size:20px;margin-bottom:5px;color:#111827}
+button span{color:#64748b;font-size:14px}
+.page{display:none;max-width:650px;margin:auto}
+.back{width:auto;background:#e0e7ff;color:#3730a3;padding:11px 17px;margin-bottom:22px;font-weight:bold}
+.profile{text-align:center;background:white;padding:28px 22px;border-radius:25px;box-shadow:0 12px 30px #00000012}
+.bigicon{margin:auto auto 15px;width:80px;height:80px;border-radius:25px;background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold}
+.profile h2{font-size:30px;color:#1e1b4b;margin-bottom:8px}
+.profile p{color:#64748b;margin-bottom:20px}
+.students{display:grid;gap:12px;text-align:left}
+.student{padding:15px 18px;background:#f8fafc;border-radius:14px;font-weight:600;color:#334155}
+.student:before{content:"👤";margin-right:10px}
+footer{text-align:center;color:#64748b;padding:25px}
+#loginBox{max-width:420px;margin:35px auto;background:white;padding:28px 22px;border-radius:22px;box-shadow:0 12px 30px #00000012}
+#loginBox input{width:100%;padding:13px;border-radius:12px;border:1px solid #cbd5e1;margin:7px 0 10px;font-size:16px}
+.primary{background:#4f46e5!important;color:white!important;text-align:center!important;font-weight:bold}
+.danger{background:#fee2e2!important;color:#991b1b!important;text-align:center!important;font-weight:bold}
+.status{font-size:14px;margin-top:10px;min-height:20px}
+
+.admin-panel{max-width:850px;margin:0 auto 30px}
+.admin-card{background:white;padding:22px;border-radius:20px;box-shadow:0 10px 25px #00000012;margin-bottom:16px}
+.admin-card h3{color:#1e1b4b;margin-bottom:12px}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-card input,.admin-card select{width:100%;padding:13px;border-radius:12px;border:1px solid #cbd5e1;font-size:16px}
+.admin-card label{display:block;font-weight:bold;margin:8px 0 5px;color:#334155}
+.admin-list{display:grid;gap:9px;margin-top:12px}
+.admin-item{padding:12px 14px;background:#f8fafc;border-radius:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.admin-item button{width:auto;padding:9px 12px}
+.admin-small{font-size:13px;color:#64748b;margin-top:6px}
+@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-item{align-items:flex-start;flex-direction:column}}
+
+button:disabled{opacity:.65;cursor:not-allowed}
+</style>
+</head>
+<body>
+<header>
+<h1>9º Ano A</h1>
+<p>Tutores de Matemática</p>
+</header>
+
+<main>
+<div id="localWarning" style="display:none;max-width:700px;margin:18px auto;padding:14px 16px;border-radius:14px;background:#fff7ed;border:1px solid #fdba74;color:#9a3412;line-height:1.5;text-align:center">⚠️ <strong>Você abriu o site como arquivo no celular.</strong><br>O Firebase pode não funcionar corretamente em <code>file://</code>. Publique este arquivo no GitHub Pages (ou outro servidor HTTPS) e abra o endereço do site.</div>
+
+<section id="loginBox">
+<h2 style="color:#1e1b4b;margin-bottom:8px">🔐 Entrar</h2>
+<p style="margin-bottom:16px">Entre com o e-mail e a senha criados no Firebase para este site.</p>
+<input id="loginEmail" type="email" placeholder="Seu e-mail">
+<input id="loginPassword" type="password" placeholder="Senha do site">
+<button class="primary" onclick="login()">Entrar</button>
+<div id="loginStatus" class="status"></div>
+</section>
+
+<section id="appArea" style="display:none">
+<div class="topbar">
+<button id="editAllBtn" class="primary" onclick="openEditor()" style="display:none">✏️ Editar alunos</button>
+    <button id="adminBtn" class="primary" onclick="openAdmin()" style="display:none">⚙️ Administração</button>
+<button onclick="logout()" style="width:auto;padding:12px 18px">Sair</button>
+</div>
+
+<section id="home">
+<h2 style="text-align:center;margin-bottom:25px;color:#1e1b4b">👥 Nossos Tutores</h2>
+<div class="grid">
+<button onclick="openPage('Diego',['Fernanda','Laura','Camilly'])"><div class="icon">D</div><h3>Diego</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Ícaro',['Thiago','Miguel','Melissa'])"><div class="icon">Í</div><h3>Ícaro</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Eduardo',['Davi','Cristian','Maria Edu'])"><div class="icon">E</div><h3>Eduardo</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Mariah',['Lara','Julia','Yuri'])"><div class="icon">M</div><h3>Mariah</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Camila',['Ana Clara','Bryan','Giovanna'])"><div class="icon">C</div><h3>Camila</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Murillo',['Lorena','Luiz'])"><div class="icon">M</div><h3>Murillo</h3><span>2 tutorados</span></button>
+<button onclick="openPage('Felippe M',['Isabela','Paulo','Beatriz Y'])"><div class="icon">F</div><h3>Felippe M</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Tiago',['Myrella','Nathalya','Wilson'])"><div class="icon">T</div><h3>Tiago</h3><span>3 tutorados</span></button>
+<button onclick="openPage('Ana Heloísa',['Kenan','Felippe S','Yasmin'])"><div class="icon">A</div><h3>Ana Heloísa</h3><span>3 tutorados</span></button>
+</div>
+</section>
+
+
+<section id="admin" class="page">
+  <button class="back" onclick="goHome()">← Voltar</button>
+  <div class="admin-panel">
+
+    <div class="admin-card">
+      <h2 style="color:#1e1b4b;margin-bottom:8px">⚙️ Painel de Administração</h2>
+      <p class="admin-small">Cadastre tutorados, crie tutores e defina quais tutorados pertencem a cada tutor.</p>
+    </div>
+
+    <div class="admin-card">
+      <h3>👨‍🎓 Cadastrar tutorado</h3>
+      <div class="admin-grid">
+        <div>
+          <label>Nome</label>
+          <input id="newStudentName" placeholder="Ex.: João Silva">
+        </div>
+        <div>
+          <label>Características (opcional)</label>
+          <input id="newStudentTraits" placeholder="Ex.: Participativo, organizado...">
+        </div>
+      </div>
+      <button class="primary" onclick="adminAddStudent()" style="margin-top:12px;text-align:center">➕ Cadastrar tutorado</button>
+      <div id="adminStudentMsg" class="status"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>🧑‍🏫 Cadastrar tutor</h3>
+      <div class="admin-grid">
+        <div>
+          <label>Nome do tutor</label>
+          <input id="newTutorName" placeholder="Ex.: Carlos">
+        </div>
+        <div>
+          <label>UID do usuário Firebase</label>
+          <input id="newTutorUid" placeholder="Cole o UID da conta do tutor">
+        </div>
+      </div>
+      <div class="admin-small">O tutor precisa ter uma conta criada no Firebase Authentication. O UID é usado para ligar a conta ao perfil de tutor.</div>
+      <button class="primary" onclick="adminAddTutor()" style="margin-top:12px;text-align:center">➕ Cadastrar tutor</button>
+      <div id="adminTutorMsg" class="status"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>🔗 Definir tutorados do tutor</h3>
+      <label>Escolha o tutor</label>
+      <select id="adminTutorSelect" onchange="loadTutorAssignments()"></select>
+      <div id="adminAssignments" class="admin-list"></div>
+      <button class="primary" onclick="saveTutorAssignments()" style="margin-top:12px;text-align:center">💾 Salvar vínculos</button>
+      <div id="adminAssignmentMsg" class="status"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>📋 Tutorados cadastrados</h3>
+      <div id="adminStudentList" class="admin-list"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>👥 Tutores cadastrados</h3>
+      <div id="adminTutorList" class="admin-list"></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="editor" class="page">
+<button class="back" onclick="goHome()">← Voltar</button>
+<div class="profile">
+<h2 style="margin-bottom:8px">Editar aluno</h2>
+<p>Escolha um aluno e escreva as características dele.</p>
+<select id="editStudent" style="width:100%;padding:13px;border-radius:12px;border:1px solid #cbd5e1;margin-bottom:12px;font-size:16px"></select>
+<textarea id="editTraits" placeholder="Digite aqui as características do aluno..." style="display:block;width:100%;min-height:160px;padding:13px;border-radius:12px;border:1px solid #cbd5e1;background:white;color:#172033;font-family:Arial;font-size:16px;resize:vertical"></textarea>
+<button onclick="saveTraits()" class="primary" style="margin-top:12px">💾 Salvar características</button>
+<div id="savedMsg" class="status"></div>
+</div>
+</section>
+
+<section id="page" class="page">
+<button class="back" onclick="goHome()">← Voltar</button>
+<div class="profile">
+<div class="bigicon" id="avatar"></div>
+<h2 id="name"></h2>
+<p>Lista de tutorados</p>
+<div class="students" id="students"></div>
+<div id="studentProfile" style="display:none;margin-top:18px;background:#eef2ff;border-radius:18px;padding:20px;text-align:left">
+<h3 id="studentName" style="color:#312e81;margin-bottom:10px"></h3>
+<p id="studentTraits" style="color:#475569;line-height:1.7;white-space:pre-line"></p>
+<button id="quickEditButton" onclick="editCurrentStudent()" class="primary" style="margin-top:15px">✏️ Editar características</button>
+<div id="quickEdit" style="display:none;margin-top:14px">
+<textarea id="quickTraits" placeholder="Digite as características do aluno..." style="width:100%;min-height:130px;padding:13px;border-radius:12px;border:1px solid #cbd5e1;font-family:Arial;font-size:16px;resize:vertical"></textarea>
+<button onclick="saveCurrentStudent()" style="margin-top:10px;background:#16a34a;color:white;text-align:center;font-weight:bold">💾 Salvar</button>
+</div>
+</div>
+</div>
+</section>
+</section>
+</main>
+<footer>© 2026 • Portfólio de Tutoria</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getDatabase, ref, get, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDOnKw3lQ9wTgwlpniE9OmxwIwtsm9oASk",
+  authDomain: "tutores-9-ano-a.firebaseapp.com",
+  databaseURL: "https://tutores-9-ano-a-default-rtdb.firebaseio.com",
+  projectId: "tutores-9-ano-a",
+  storageBucket: "tutores-9-ano-a.firebasestorage.app",
+  messagingSenderId: "746563720937",
+  appId: "1:746563720937:web:d71b4fef9bfdd6d8888278",
+  measurementId: "G-SZQ7XHZ0PN"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+if(location.protocol === 'file:') {
+  document.getElementById('localWarning').style.display='block';
+}
+
+let allStudents = ['Fernanda','Laura','Camilly','Thiago','Miguel','Melissa','Davi','Cristian','Maria Edu','Lara','Julia','Yuri','Ana Clara','Bryan','Giovanna','Lorena','Luiz','Isabela','Paulo','Beatriz Y','Myrella','Nathalya','Wilson','Kenan','Felippe S','Yasmin'];
+let currentStudent = '';
+let currentRole = 'student';
+let tutorStudents = new Set();
+let adminStudents = {};
+let adminTutors = {};
+let selectedTutorUid = '';
+
+window.login = async function(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const password=document.getElementById('loginPassword').value;
+  const status=document.getElementById('loginStatus');
+  const button=document.querySelector('#loginBox button.primary');
+  if(!email || !password){
+    status.textContent='❌ Digite o e-mail e a senha.';
+    return;
+  }
+  status.textContent='Entrando...';
+  if(button) button.disabled=true;
+  try{
+    await Promise.race([
+      signInWithEmailAndPassword(auth,email,password),
+      new Promise((_, reject)=>setTimeout(()=>reject(new Error('TIMEOUT_LOGIN')),10000))
+    ]);
+    status.textContent='✓ Login realizado! Carregando...';
+  }catch(e){
+    console.error('Erro no login:',e);
+    const code=e?.code || '';
+    if(code==='auth/invalid-credential' || code==='auth/wrong-password' || code==='auth/user-not-found'){
+      status.textContent='❌ E-mail ou senha incorretos.';
+    }else if(code==='auth/invalid-email'){
+      status.textContent='❌ Esse e-mail não é válido.';
+    }else if(code==='auth/too-many-requests'){
+      status.textContent='❌ Muitas tentativas. Aguarde alguns minutos e tente novamente.';
+    }else if(code==='auth/network-request-failed' || e?.message==='TIMEOUT_LOGIN'){
+      status.innerHTML='❌ O Firebase não respondeu. <strong>Se você abriu este arquivo pelo Downloads do celular, publique-o no GitHub Pages e abra pelo link HTTPS.</strong>';
+    }else{
+      status.textContent='❌ Erro do Firebase: '+(e?.message || 'tente novamente.');
+    }
+  }finally{
+    if(button) button.disabled=false;
+  }
+};
+
+window.logout = function(){ signOut(auth); };
+
+onAuthStateChanged(auth, async (user)=>{
+  if(!user){
+    document.getElementById('loginBox').style.display='block';
+    document.getElementById('appArea').style.display='none';
+    document.getElementById('loginStatus').textContent='';
+    return;
+  }
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('appArea').style.display='block';
+  try{
+    await loadRole(user.uid);
+  }catch(e){
+    console.error('Erro ao carregar o perfil:',e);
+    document.getElementById('appArea').style.display='none';
+    document.getElementById('loginBox').style.display='block';
+    document.getElementById('loginStatus').textContent='❌ Login feito, mas não foi possível carregar os dados do Firebase.';
+  }
+});
+
+async function loadRole(uid){
+  currentRole='student';
+  tutorStudents = new Set();
+
+  try{
+    const userSnap = await get(ref(db,'users/'+uid));
+    if(userSnap.exists()){
+      const data = userSnap.val() || {};
+      currentRole = data.role || 'student';
+
+      if(currentRole === 'tutor' && data.students){
+        Object.keys(data.students).forEach(name=>{
+          if(data.students[name] === true) tutorStudents.add(name);
+        });
+      }
+    }
+  }catch(e){
+    console.error('Erro ao carregar permissões:', e);
+  }
+
+  document.getElementById('editAllBtn').style.display=
+    (currentRole==='admin'||currentRole==='teacher') ? 'block' : 'none';
+
+  document.getElementById('adminBtn').style.display=
+    currentRole==='admin' ? 'block' : 'none';
+
+  document.getElementById('quickEditButton').style.display='none';
+  document.getElementById('quickEdit').style.display='none';
+  await loadDirectory();
+}
+
+async function loadDirectory(){
+  try{
+    const [studentsSnap,tutorsSnap] = await Promise.all([
+      get(ref(db,'students')),
+      get(ref(db,'tutors'))
+    ]);
+    const dbStudents = studentsSnap.exists() ? (studentsSnap.val() || {}) : {};
+    const dbTutors = tutorsSnap.exists() ? (tutorsSnap.val() || {}) : {};
+    allStudents = Array.from(new Set([...allStudents, ...Object.keys(dbStudents)])).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    renderHomeTutors(dbTutors);
+  }catch(e){
+    console.error('Erro ao carregar tutores:', e);
+    renderHomeTutors({});
+  }
+}
+
+function renderHomeTutors(tutors){
+  const grid=document.querySelector('#home .grid');
+  const entries=Object.entries(tutors || {});
+  if(!entries.length){
+    return;
+  }
+  grid.innerHTML=entries.map(([uid,t])=>{
+    const name=t?.name || uid;
+    const students=Object.keys(t?.students || {}).filter(n=>t.students[n]===true).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    const count=students.length;
+    const safeName=escapeJs(name);
+    const safeStudents=JSON.stringify(students).replace(/</g,'\\u003c');
+    return `<button onclick="openPage('${safeName}',${safeStudents})"><div class="icon">${escapeHtml(name.charAt(0).toUpperCase())}</div><h3>${escapeHtml(name)}</h3><span>${count} tutorado(s)</span></button>`;
+  }).join('');
+}
+
+function canEditStudent(name){
+  // Admin and professor can edit every tutorado.
+  if(currentRole === 'admin' || currentRole === 'teacher') return true;
+
+  // Tutor can edit only the tutorados assigned to that tutor.
+  if(currentRole === 'tutor') return tutorStudents.has(name);
+
+  // Tutorados/students can only view.
+  return false;
+}
+
+
+window.openAdmin = async function(){
+  if(currentRole !== 'admin') return;
+  document.getElementById('home').style.display='none';
+  document.getElementById('page').style.display='none';
+  document.getElementById('editor').style.display='none';
+  document.getElementById('admin').style.display='block';
+  await loadAdminData();
+  window.scrollTo(0,0);
+};
+
+async function loadAdminData(){
+  try{
+    const [studentsSnap,tutorsSnap] = await Promise.all([
+      get(ref(db,'students')),
+      get(ref(db,'tutors'))
+    ]);
+    adminStudents = studentsSnap.exists() ? (studentsSnap.val() || {}) : {};
+    adminTutors = tutorsSnap.exists() ? (tutorsSnap.val() || {}) : {};
+    renderAdminStudents();
+    renderAdminTutors();
+    renderTutorSelect();
+  }catch(e){
+    console.error(e);
+  }
+}
+
+function renderAdminStudents(){
+  const box=document.getElementById('adminStudentList');
+  const names=Object.keys(adminStudents);
+  if(!names.length){
+    box.innerHTML='<div class="admin-small">Nenhum tutorado cadastrado ainda.</div>';
+    return;
+  }
+  box.innerHTML=names.sort().map(name=>{
+    const traits=adminStudents[name]?.traits || '';
+    return `<div class="admin-item">
+      <div><strong>${escapeHtml(name)}</strong><div class="admin-small">${escapeHtml(traits || 'Sem características')}</div></div>
+      <button class="danger" onclick="adminDeleteStudent('${escapeJs(name)}')">Excluir</button>
+    </div>`;
+  }).join('');
+}
+
+function renderAdminTutors(){
+  const box=document.getElementById('adminTutorList');
+  const uids=Object.keys(adminTutors);
+  if(!uids.length){
+    box.innerHTML='<div class="admin-small">Nenhum tutor cadastrado ainda.</div>';
+    return;
+  }
+  box.innerHTML=uids.map(uid=>{
+    const t=adminTutors[uid] || {};
+    const count=Object.keys(t.students || {}).length;
+    return `<div class="admin-item">
+      <div><strong>${escapeHtml(t.name || 'Tutor')}</strong><div class="admin-small">UID: ${escapeHtml(uid)} • ${count} tutorado(s)</div></div>
+      <button class="danger" onclick="adminDeleteTutor('${escapeJs(uid)}')">Excluir</button>
+    </div>`;
+  }).join('');
+}
+
+function renderTutorSelect(){
+  const select=document.getElementById('adminTutorSelect');
+  const uids=Object.keys(adminTutors);
+  if(!uids.length){
+    select.innerHTML='<option value="">Nenhum tutor cadastrado</option>';
+    document.getElementById('adminAssignments').innerHTML='';
+    selectedTutorUid='';
+    return;
+  }
+  select.innerHTML=uids.map(uid=>`<option value="${escapeHtml(uid)}">${escapeHtml(adminTutors[uid]?.name || uid)}</option>`).join('');
+  selectedTutorUid=select.value;
+  loadTutorAssignments();
+}
+
+function loadTutorAssignments(){
+  const select=document.getElementById('adminTutorSelect');
+  selectedTutorUid=select.value;
+  const tutor=adminTutors[selectedTutorUid] || {};
+  const assigned=tutor.students || {};
+  const box=document.getElementById('adminAssignments');
+  const names=Object.keys(adminStudents).sort();
+  if(!names.length){
+    box.innerHTML='<div class="admin-small">Cadastre tutorados primeiro.</div>';
+    return;
+  }
+  box.innerHTML=names.map(name=>{
+    const checked=assigned[name]===true ? 'checked' : '';
+    return `<label class="admin-item" style="cursor:pointer;font-weight:normal;margin:0">
+      <span>${escapeHtml(name)}</span>
+      <input type="checkbox" class="assignmentCheck" data-name="${escapeHtml(name)}" ${checked} style="width:22px;height:22px">
+    </label>`;
+  }).join('');
+  document.getElementById('adminAssignmentMsg').textContent='';
+}
+
+window.saveTutorAssignments = async function(){
+  if(currentRole!=='admin' || !selectedTutorUid) return;
+  const checks=[...document.querySelectorAll('.assignmentCheck')];
+  const students={};
+  checks.forEach(c=>{ if(c.checked) students[c.dataset.name]=true; });
+  try{
+    await update(ref(db,'tutors/'+selectedTutorUid),{students});
+    await update(ref(db,'users/'+selectedTutorUid),{role:'tutor',students});
+    adminTutors[selectedTutorUid].students=students;
+    document.getElementById('adminAssignmentMsg').textContent='✓ Vínculos salvos!';
+    renderAdminTutors();
+  }catch(e){
+    console.error(e);
+    document.getElementById('adminAssignmentMsg').textContent='❌ Não foi possível salvar.';
+  }
+};
+
+window.adminAddStudent = async function(){
+  if(currentRole!=='admin') return;
+  const name=document.getElementById('newStudentName').value.trim();
+  const traits=document.getElementById('newStudentTraits').value.trim();
+  const msg=document.getElementById('adminStudentMsg');
+  if(!name){ msg.textContent='❌ Digite o nome do tutorado.'; return; }
+  if(adminStudents[name]){ msg.textContent='❌ Esse tutorado já existe.'; return; }
+  try{
+    adminStudents[name]={traits};
+    await set(ref(db,'students/'+name),adminStudents[name]);
+    if(traits) await set(ref(db,'traits/'+name),traits);
+    document.getElementById('newStudentName').value='';
+    document.getElementById('newStudentTraits').value='';
+    if(!allStudents.includes(name)) allStudents.push(name);
+    allStudents.sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    msg.textContent='✓ Tutorado cadastrado!';
+    renderAdminStudents();
+    renderTutorSelect();
+  }catch(e){
+    console.error(e);
+    delete adminStudents[name];
+    msg.textContent='❌ Não foi possível cadastrar.';
+  }
+};
+
+window.adminAddTutor = async function(){
+  if(currentRole!=='admin') return;
+  const name=document.getElementById('newTutorName').value.trim();
+  const uid=document.getElementById('newTutorUid').value.trim();
+  const msg=document.getElementById('adminTutorMsg');
+  if(!name || !uid){ msg.textContent='❌ Preencha nome e UID.'; return; }
+  if(adminTutors[uid]){ msg.textContent='❌ Esse UID já está cadastrado.'; return; }
+  try{
+    const data={name,role:'tutor',students:{}};
+    adminTutors[uid]=data;
+    await set(ref(db,'tutors/'+uid),data);
+    await update(ref(db,'users/'+uid),{role:'tutor',students:{}});
+    document.getElementById('newTutorName').value='';
+    document.getElementById('newTutorUid').value='';
+    msg.textContent='✓ Tutor cadastrado!';
+    renderAdminTutors();
+    renderTutorSelect();
+  }catch(e){
+    console.error(e);
+    delete adminTutors[uid];
+    msg.textContent='❌ Não foi possível cadastrar.';
+  }
+};
+
+window.adminDeleteStudent = async function(name){
+  if(currentRole!=='admin') return;
+  if(!confirm('Excluir o tutorado '+name+'?')) return;
+  try{
+    await remove(ref(db,'students/'+name));
+    await remove(ref(db,'traits/'+name));
+    for(const uid of Object.keys(adminTutors)){
+      const students={...(adminTutors[uid]?.students || {})};
+      if(students[name]){
+        delete students[name];
+        await update(ref(db,'tutors/'+uid),{students});
+        await update(ref(db,'users/'+uid),{students});
+        adminTutors[uid].students=students;
+      }
+    }
+    delete adminStudents[name];
+    renderAdminStudents();
+    renderAdminTutors();
+    renderTutorSelect();
+  }catch(e){ alert('Não foi possível excluir o tutorado.'); }
+};
+
+window.adminDeleteTutor = async function(uid){
+  if(currentRole!=='admin') return;
+  if(!confirm('Excluir este tutor do painel? A conta do Firebase Authentication não será apagada.')) return;
+  try{
+    await remove(ref(db,'tutors/'+uid));
+    await update(ref(db,'users/'+uid),{role:'student',students:null});
+    adminTutors[uid] = undefined;
+    delete adminTutors[uid];
+    renderAdminTutors();
+    renderTutorSelect();
+  }catch(e){ alert('Não foi possível excluir o tutor.'); }
+};
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeJs(value){
+  return String(value).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+}
+
+
+window.openEditor = function(){
+  if(!(currentRole==='admin'||currentRole==='teacher')) return;
+  document.getElementById('home').style.display='none';
+  document.getElementById('page').style.display='none';
+  document.getElementById('editor').style.display='block';
+  const select=document.getElementById('editStudent');
+  select.innerHTML=allStudents.map(s=>`<option>${s}</option>`).join('');
+  loadTraits();
+  select.onchange=loadTraits;
+  window.scrollTo(0,0);
+};
+
+function loadTraits(){
+  const name=document.getElementById('editStudent').value;
+  onValue(ref(db,'traits/'+name), snap=>{
+    document.getElementById('editTraits').value=snap.val() || '';
+    document.getElementById('savedMsg').textContent='';
+  }, {onlyOnce:true});
+}
+
+window.saveTraits = async function(){
+  const name=document.getElementById('editStudent').value;
+  if(!(currentRole==='admin'||currentRole==='teacher')) return;
+  try{
+    await set(ref(db,'traits/'+name),document.getElementById('editTraits').value);
+    document.getElementById('savedMsg').textContent='✓ Salvo no Firebase! Todos verão a alteração.';
+  }catch(e){
+    document.getElementById('savedMsg').textContent='❌ Não foi possível salvar.';
+  }
+};
+
+window.openPage = function(name, students){
+  document.getElementById('home').style.display='none';
+  document.getElementById('editor').style.display='none';
+  document.getElementById('page').style.display='block';
+  document.getElementById('name').textContent=name;
+  document.getElementById('avatar').textContent=name.charAt(0);
+  document.getElementById('studentProfile').style.display='none';
+  document.getElementById('students').innerHTML=students.map(s=>
+    `<div class="student" onclick="showStudent('${s.replace(/'/g,"\\'")}')" style="cursor:pointer">${s}</div>`
+  ).join('');
+  window.scrollTo(0,0);
+};
+
+window.showStudent = function(name){
+  currentStudent=name;
+  document.getElementById('quickEdit').style.display='none';
+  document.getElementById('quickTraits').value='';
+  document.getElementById('studentProfile').style.display='block';
+  document.getElementById('studentName').textContent='🌟 '+name;
+  onValue(ref(db,'traits/'+name),snap=>{
+    document.getElementById('studentTraits').textContent=snap.val() || 'Ainda não há características cadastradas.';
+  });
+  document.getElementById('quickEditButton').style.display=
+    canEditStudent(name) ? 'block' : 'none';
+  document.getElementById('studentProfile').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+window.editCurrentStudent = function(){
+  if(!canEditStudent(currentStudent)) return;
+  document.getElementById('quickEdit').style.display='block';
+  get(ref(db,'traits/'+currentStudent)).then(snap=>{
+    document.getElementById('quickTraits').value=snap.val() || '';
+    document.getElementById('quickTraits').focus();
+  });
+};
+
+window.saveCurrentStudent = async function(){
+  if(!canEditStudent(currentStudent)) return;
+  try{
+    await set(ref(db,'traits/'+currentStudent),document.getElementById('quickTraits').value);
+    document.getElementById('studentTraits').textContent=document.getElementById('quickTraits').value || 'Ainda não há características cadastradas.';
+    document.getElementById('quickEdit').style.display='none';
+  }catch(e){
+    alert('Não foi possível salvar no Firebase.');
+  }
+};
+
+window.goHome = function(){
+  document.getElementById('page').style.display='none';
+  document.getElementById('editor').style.display='none';
+  document.getElementById('admin').style.display='none';
+  document.getElementById('home').style.display='block';
+  window.scrollTo(0,0);
+};
+</script>
+</body>
+</html>
